@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Programare Web</title>
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="#">Labs</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link" href="/">Home </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/Async">Asynchronous</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/LogIn_SignIn">LogIn/SignIn</a>
+        </li>
+        <li class="nav-item active">
+          <a class="nav-link" href="/Ajax">Ajax <span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/WebSockets">WebSockets</a>
+        </li>
+      </ul>
+    </div>
+    <span class="navbar-text ml-auto" id="auth-status">
+      Not logged in
+    </span>
+    <script>
+      async function checkAuth() {
+        try {
+          const response = await fetch('/me', {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            credentials: 'include' // Include cookie-urile în cerere
+          });
+    
+          if (response.ok) {
+            const data = await response.json();
+            document.getElementById('auth-status').textContent = `Logged in as ${data.username}`;
+          } else {
+            document.getElementById('auth-status').textContent = 'Not logged in';
+          }
+        } catch (error) {
+          console.error('Error checking auth status:', error);
+          document.getElementById('auth-status').textContent = 'Not logged in';
+        }
+      }
+    
+      // Verifică autentificarea când pagina este încărcată
+      window.onload = checkAuth;
+    </script>
+  </nav>
+<body>
+  <h1>User List</h1>
+  <div id="user-list"></div>
+  <input type="text" id="search" placeholder="Caută după username...">
+  <div id="user-list"></div>
+
+  <script>
+   // public/script.js
+document.addEventListener('DOMContentLoaded', () => {
+  const userList = document.getElementById('user-list');
+  const searchInput = document.getElementById('search');
+
+  const fetchUsers = async (username = '') => {
+    try {
+      const response = await fetch(`/users?username=${username}`);
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+
+      const users = await response.json();
+      userList.innerHTML = '';
+
+      users.forEach(user => {
+        const userDiv = document.createElement('div');
+        userDiv.textContent = `Username: ${user.username}, Email: ${user.email}`;
+        userList.appendChild(userDiv);
+      });
+    } catch (error) {
+      userList.textContent = 'Nu am putut încărca utilizatorii.';
+      console.error('There was a problem with the fetch operation:', error);
+    }
+  };
+
+  // Fetch all users on page load
+  fetchUsers();
+
+  // Fetch users on input change
+  searchInput.addEventListener('input', (event) => {
+    fetchUsers(event.target.value);
+  });
+});
+
+
+  </script>
+</body>
+</html>
+
+
+<!-- Bootstrap JS and dependencies -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

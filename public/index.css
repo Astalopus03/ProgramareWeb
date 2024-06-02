@@ -1,0 +1,16 @@
+   body {
+      background-color: #f8f9fa;
+    }
+    .navbar-brand {
+      font-weight: bold;
+      color: #007bff;
+    }
+    .nav-link {
+      color: #6c757d !important;
+    }
+    .section-header {
+      color: #343a40;
+    }
+    .section-content {
+      color: #6c757d;
+    }

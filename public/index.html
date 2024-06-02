@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Programare Web</title>
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <a class="navbar-brand" href="#">Labs</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNav">
+    <ul class="navbar-nav">
+      <li class="nav-item active">
+        <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/Async">Asynchronous</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/LogIn_SignIn">LogIn/SignIn</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/Ajax">Ajax</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/WebSockets">WebSockets</a>
+      </li>
+    </ul>
+  </div>
+  <span class="navbar-text ml-auto" id="auth-status">
+    Not logged in
+  </span>
+  <script>
+    async function checkAuth() {
+      try {
+        const response = await fetch('/me', {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          credentials: 'include' // Include cookie-urile în cerere
+        });
+  
+        if (response.ok) {
+          const data = await response.json();
+          document.getElementById('auth-status').textContent = `Logged in as ${data.username}`;
+        } else {
+          document.getElementById('auth-status').textContent = 'Not logged in';
+        }
+      } catch (error) {
+        console.error('Error checking auth status:', error);
+        document.getElementById('auth-status').textContent = 'Not logged in';
+      }
+    }
+  
+    // Verifică autentificarea când pagina este încărcată
+    window.onload = checkAuth;
+  </script>
+</nav>
+
+
+
+<div class="container mt-5">
+  <section id="asynchronous">
+    <h2>Asynchronous</h2>
+    <p>Elementul "Asynchronous" reprezintă două căsuțe de text, una în care scriem codul în limbajul javascript, iar o căsuță unde afișăm rezultatul.</p>
+  </section>
+  <hr>
+  <section id="login-signin">
+    <h2>LogIn/SignIn</h2>
+    <p>Elementul "LogIn/SignIn" permite utilizatorilor să se autentifice sau să se înregistreze.</p>
+  </section>
+  <hr>
+  <section id="ajax">
+    <h2>Ajax</h2>
+    <p>Elementul "Ajax" permite comunicarea asincronă între client și server, fără a fi necesară reîncărcarea întregii pagini. Aceasta îmbunătățește performanța și reactivitatea, permițând actualizări de conținut în timp real.</p>
+  </section>
+  <hr>
+  <section id="websockets">
+    <h2>WebSockets</h2>
+    <p>Elementul "WebSockets" oferă o conexiune bidirecțională în timp real între client și server. Aceasta permite comunicarea instantanee și actualizările în timp real, fără a fi necesară o actualizare manuală a paginii.</p>
+  </section>
+</div>
+
+<!-- Bootstrap JS and dependencies -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
